@@ -3,8 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ready Check for Jira</title>
-<meta name="description" content="Definition of Ready for Jira: score every story and block the ones that are not ready.">
+<title>Ready Check: Definition of Ready for Jira</title>
+<meta name="description" content="Score every Jira user story from 0 to 100 against your Definition of Ready, see what is missing and block stories that are not ready. English and Spanish.">
+<link rel="canonical" href="https://stevenpardoo.github.io/ready-check-site/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ready Check: Definition of Ready for Jira">
+<meta property="og:description" content="Score every Jira user story from 0 to 100 against your Definition of Ready, see what is missing and block stories that are not ready. English and Spanish.">
+<meta property="og:url" content="https://stevenpardoo.github.io/ready-check-site/">
+<meta property="og:image" content="https://stevenpardoo.github.io/ready-check-site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ready Check – Definition of Ready","applicationCategory":"BusinessApplication","operatingSystem":"Jira Cloud","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","description":"Free for up to 10 users"},"inLanguage":["en","es"]}</script>
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
@@ -14,6 +22,7 @@
 <header class="top"><div class="top-in">
   <a class="brand" href=""><img src="assets/icon.svg" alt="" width="28" height="28">Ready Check</a>
   <nav class="nav">
+    <a href="checker/"><span class="en">Free story checker</span><span class="es">Revisor gratis</span></a>
     <a href="guide/"><span class="en">Setup guide</span><span class="es">Guía</span></a>
     <a href="support/"><span class="en">Support</span><span class="es">Soporte</span></a>
     <a href="privacy/"><span class="en">Privacy</span><span class="es">Privacidad</span></a>
@@ -30,7 +39,8 @@
   <h1 class="es">Las historias que no están listas no empiezan</h1>
   <p class="lede en">Ready Check scores every Jira issue from 0 to 100 against your Definition of Ready, tells the author what is missing, and blocks the workflow when a story below your minimum tries to move into progress.</p>
   <p class="lede es">Ready Check califica cada incidencia de Jira de 0 a 100 según tu definición de listo, le dice al autor qué falta y bloquea el flujo cuando una historia por debajo de tu mínimo intenta pasar a en curso.</p>
-  <p><a class="cta" href="guide/"><span class="en">Read the setup guide</span><span class="es">Ver la guía de configuración</span></a></p>
+  <p style="display:flex;gap:12px;flex-wrap:wrap"><a class="cta" href="https://marketplace.atlassian.com/apps/1953924340"><span class="en">Get it on the Atlassian Marketplace</span><span class="es">Instalar desde el Atlassian Marketplace</span></a> <a class="cta" style="background:transparent;color:var(--accent);border:1px solid var(--accent)" href="checker/"><span class="en">Try the free story checker</span><span class="es">Probar el revisor gratis</span></a></p>
+  <figure><img src="assets/highlight-1-score.jpg" alt="Ready Check panel on a Jira story showing a 59 out of 100 score and the checks that fail" width="1840" height="900"></figure>
   <div class="grid">
     <div class="card"><h3 class="en">A score on every issue</h3><h3 class="es">Un puntaje en cada incidencia</h3>
       <p class="en">Nine checks: acceptance criteria, edge cases, Given/When/Then, story format, open questions, estimate, vague wording, detail and design links.</p>

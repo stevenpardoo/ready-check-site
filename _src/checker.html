@@ -1,0 +1,167 @@
+<style>
+.chk { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 860px) { .chk { grid-template-columns: minmax(0, 1fr); } }
+.chk label { font-weight: 600; font-size: 14px; display: block; margin-bottom: 6px; }
+.chk input, .chk textarea { width: 100%; font: 15px/1.5 var(--font-body); color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.chk textarea { min-height: 340px; resize: vertical; font-family: var(--font-mono); font-size: 13.5px; }
+.chk input:focus, .chk textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+.row > div { flex: 1 1 140px; }
+.btn2 { font: 600 14px/1 var(--font-body); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; position: sticky; top: 16px; }
+.score { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.score b { font: 700 44px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.pill { font: 600 13px/1 var(--font-body); padding: 6px 10px; border-radius: 999px; }
+.pill.ok { background: var(--accent-soft); color: var(--accent); }
+.pill.no { background: var(--danger-soft); color: var(--danger); }
+.bar { height: 10px; border-radius: 6px; background: var(--danger-soft); overflow: hidden; position: relative; }
+.bar i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+.bar::after { content: ""; position: absolute; left: 70%; top: 0; bottom: 0; width: 2px; background: var(--fg); }
+.checks, .whatifs { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.checks li { display: grid; grid-template-columns: 22px minmax(0,1fr); gap: 8px; font-size: 15px; }
+.checks small { display: block; color: var(--muted); font-size: 13.5px; }
+.ic { font-weight: 700; }
+.ic.p { color: var(--ok); } .ic.f { color: var(--danger); } .ic.n { color: var(--muted); }
+.whatifs li { font-size: 14.5px; padding-left: 22px; position: relative; }
+.whatifs li::before { content: "?"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.whatifs li.cov { color: var(--muted); }
+.whatifs li.cov::before { content: "\2713"; color: var(--ok); }
+.privacy { font-size: 13px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+</style>
+<main class="page">
+  <div class="eyebrow"><span class="en">Free tool</span><span class="es">Herramienta gratis</span></div>
+  <h1 class="en">Is your user story ready?</h1>
+  <h1 class="es">¿Tu historia de usuario está lista?</h1>
+  <p class="lede en">Paste a user story and get a 0–100 readiness score, what is missing, and the questions QA will ask. Works in English and Spanish.</p>
+  <p class="lede es">Pega una historia de usuario y obtén un puntaje de 0 a 100, lo que le falta y las preguntas que hará QA. Funciona en español e inglés.</p>
+
+  <div class="chk">
+    <div style="display:grid;gap:14px">
+      <div><label for="sum"><span class="en">Title</span><span class="es">Título</span></label><input id="sum" type="text"></div>
+      <div><label for="desc"><span class="en">Description and acceptance criteria</span><span class="es">Descripción y criterios de aceptación</span></label><textarea id="desc" spellcheck="false"></textarea></div>
+      <div class="row">
+        <div><label for="sp"><span class="en">Story points (optional)</span><span class="es">Story points (opcional)</span></label><input id="sp" type="number" min="0" step="0.5"></div>
+        <button class="btn2" type="button" id="ex-bad"><span class="en">Example: vague story</span><span class="es">Ejemplo: historia vaga</span></button>
+        <button class="btn2" type="button" id="ex-good"><span class="en">Example: ready story</span><span class="es">Ejemplo: historia lista</span></button>
+      </div>
+      <p class="privacy en">Your text stays in your browser. Nothing is sent or stored.</p>
+      <p class="privacy es">Tu texto se queda en tu navegador. No se envía ni se guarda nada.</p>
+    </div>
+
+    <section class="result" aria-live="polite">
+      <div class="score"><b id="score">–</b><span id="state" class="pill"></span></div>
+      <div class="bar" aria-hidden="true"><i id="bar" style="width:0"></i></div>
+      <p class="meta"><span class="en">Minimum to pass: 70 (adjustable in the Jira app)</span><span class="es">Mínimo para pasar: 70 (ajustable en la app de Jira)</span></p>
+      <h3 class="en">Checks</h3><h3 class="es">Revisiones</h3>
+      <ul class="checks" id="checks"></ul>
+      <h3 id="wh-t"></h3>
+      <ul class="whatifs" id="whatifs"></ul>
+      <div class="card key">
+        <b class="en">Do this automatically in Jira</b><b class="es">Hazlo automático en Jira</b>
+        <p class="en">Ready Check scores every story in Jira and stops the ones below your minimum from moving into progress. Free for up to 10 users.</p>
+        <p class="es">Ready Check califica cada historia en Jira y frena las que están por debajo de tu mínimo antes de pasar a en curso. Gratis hasta 10 usuarios.</p>
+        <p><a class="cta" href="https://marketplace.atlassian.com/apps/1953924340"><span class="en">Get Ready Check for Jira</span><span class="es">Instalar Ready Check en Jira</span></a></p>
+      </div>
+    </section>
+  </div>
+</main>
+<script type="module">
+import { evaluate } from '../assets/rc/engine.js';
+import { DEFAULT_SETTINGS } from '../assets/rc/defaults.js';
+import { t, failHint } from '../assets/rc/i18n.js';
+
+const EX = {
+  bad: {
+    en: ['Fast login', 'Make the login fast and intuitive, etc. Details TBD'],
+    es: ['Login rápido', 'Hacer que el login sea rápido e intuitivo, etc. Detalles por definir'],
+  },
+  good: {
+    en: ['Export invoices to CSV', [
+      'As an accountant, I want to export the invoices of a period to CSV so that I can reconcile them in my spreadsheet.',
+      'Today accountants copy invoices one by one, which takes about two hours at month end.',
+      'Design: https://www.figma.com/design/abc/export',
+      'Acceptance criteria',
+      'Scenario: period with invoices',
+      'Given I am on the invoices list',
+      'When I pick a period and click Export',
+      'Then a CSV downloads with one row per invoice',
+      'Scenario: period without invoices',
+      'Given the selected period has no invoices',
+      'When I click Export',
+      'Then I see "No invoices in this period" and no file downloads',
+    ].join('\n')],
+    es: ['Exportar facturas a CSV', [
+      'Como contador, quiero exportar las facturas de un periodo a CSV para conciliarlas en mi hoja de cálculo.',
+      'Hoy los contadores copian las facturas una por una y les toma unas dos horas al cierre del mes.',
+      'Diseño: https://www.figma.com/design/abc/exportar',
+      'Criterios de aceptación',
+      'Escenario: periodo con facturas',
+      'Dado que estoy en la lista de facturas',
+      'Cuando elijo un periodo y presiono Exportar',
+      'Entonces se descarga un CSV con una fila por factura',
+      'Escenario: periodo sin facturas',
+      'Dado que el periodo elegido no tiene facturas',
+      'Cuando presiono Exportar',
+      'Entonces veo "No hay facturas en este periodo" y no se descarga ningún archivo',
+    ].join('\n')],
+  },
+};
+const $ = (id) => document.getElementById(id);
+const lang = () => (document.body.dataset.lang === 'es' ? 'es' : 'en');
+const URL_RE = /https?:\/\/\S+/g;
+let current = 'bad';
+
+function load(kind) {
+  current = kind;
+  const [s, d] = EX[kind][lang()];
+  $('sum').value = s; $('desc').value = d; $('sp').value = kind === 'good' ? 3 : '';
+  run();
+}
+
+function run() {
+  const l = lang();
+  const text = $('desc').value;
+  const sp = $('sp').value === '' ? null : Number($('sp').value);
+  const r = evaluate({ summary: $('sum').value, text, acText: '', urls: text.match(URL_RE) || [], attachments: [], storyPoints: sp }, DEFAULT_SETTINGS);
+  $('score').textContent = `${r.score}/100`;
+  $('bar').style.width = `${r.score}%`;
+  const st = $('state');
+  st.textContent = r.ready ? t(l, 'panel.ready') : t(l, 'panel.notReady');
+  st.className = `pill ${r.ready ? 'ok' : 'no'}`;
+  const ordered = [
+    ...r.checks.filter((c) => c.status === 'fail').sort((a, b) => b.weight - a.weight),
+    ...r.checks.filter((c) => c.status !== 'fail'),
+  ];
+  $('checks').replaceChildren();
+  for (const c of ordered) {
+    const li = document.createElement('li');
+    const ic = document.createElement('span');
+    ic.className = `ic ${c.status === 'pass' ? 'p' : c.status === 'fail' ? 'f' : 'n'}`;
+    ic.textContent = c.status === 'pass' ? '✓' : c.status === 'fail' ? '✗' : '–';
+    const body = document.createElement('span');
+    body.textContent = t(l, `check.${c.id}`);
+    if (c.status === 'fail') {
+      const s = document.createElement('small');
+      s.textContent = failHint(l, c);
+      body.appendChild(s);
+    }
+    li.append(ic, body);
+    $('checks').appendChild(li);
+  }
+  $('wh-t').textContent = t(l, 'panel.whatIf');
+  $('whatifs').replaceChildren();
+  for (const s of r.suggestions) {
+    const li = document.createElement('li');
+    li.textContent = t(l, `whatif.${s.id}`);
+    if (s.covered) li.className = 'cov';
+    $('whatifs').appendChild(li);
+  }
+}
+
+['sum', 'desc', 'sp'].forEach((id) => $(id).addEventListener('input', () => { current = null; run(); }));
+$('ex-bad').addEventListener('click', () => load('bad'));
+$('ex-good').addEventListener('click', () => load('good'));
+document.querySelectorAll('.lang button').forEach((b) => b.addEventListener('click', () => setTimeout(() => (current ? load(current) : run()), 0)));
+load('bad');
+</script>

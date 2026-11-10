@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://stevenpardoo.github.io/ready-check-site/sitemap.xml
