@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Setup guide / Guía de configuración
+    url: https://stevenpardoo.github.io/ready-check-site/guide/
+    about: Most answers are here / La mayoría de respuestas están aquí

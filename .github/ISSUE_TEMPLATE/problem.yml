@@ -1,0 +1,28 @@
+name: Something is not working / Algo no funciona
+description: Report a problem with Ready Check / Reporta un problema con Ready Check
+labels: [support]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not paste confidential issue content. / No pegues contenido confidencial de tus incidencias."
+  - type: textarea
+    id: what
+    attributes:
+      label: What did you do? / ¿Qué hiciste?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect and what happened? / ¿Qué esperabas y qué pasó?
+    validations:
+      required: true
+  - type: dropdown
+    id: project
+    attributes:
+      label: Project type / Tipo de proyecto
+      options: [Team-managed / Gestionado por el equipo, Company-managed / Gestionado por la empresa, Not sure / No sé]
+  - type: input
+    id: language
+    attributes:
+      label: Jira language / Idioma de Jira

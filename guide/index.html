@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ready Check Setup Guide</title>
+<meta name="description" content="How to set up Ready Check in Jira in one minute.">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="../"><img src="../assets/icon.svg" alt="" width="28" height="28">Ready Check</a>
+  <nav class="nav">
+    <a href="../guide/" aria-current="page"><span class="en">Setup guide</span><span class="es">Guía</span></a>
+    <a href="../support/"><span class="en">Support</span><span class="es">Soporte</span></a>
+    <a href="../privacy/"><span class="en">Privacy</span><span class="es">Privacidad</span></a>
+    <a href="../terms/"><span class="en">Terms</span><span class="es">Términos</span></a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language / Idioma">
+    <button type="button" data-set="en" aria-pressed="true">English</button>
+    <button type="button" data-set="es" aria-pressed="false">Español</button>
+  </div>
+</div></header>
+<style>
+.guide { gap: 56px; }
+.guide section { display: grid; gap: 16px; scroll-margin-top: 16px; }
+.gate { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; overflow-x: auto; }
+.lane { display: flex; align-items: center; min-width: 640px; }
+.st { flex: 1; text-align: center; padding: 12px 8px; border-radius: 8px; font: 600 14px/1.2 var(--font-display); text-transform: uppercase; letter-spacing: .04em; border: 1px solid var(--line); background: var(--bg); }
+.st.todo { color: var(--muted); } .st.prog { color: var(--accent); background: var(--accent-soft); border-color: var(--accent); } .st.done { color: var(--ok); }
+.arrow { width: 54px; height: 2px; background: var(--line); position: relative; flex: none; }
+.arrow::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left-color: var(--line); }
+.arrow.blocked { background: var(--danger); } .arrow.blocked::after { border-left-color: var(--danger); }
+.arrow.blocked span { position: absolute; left: 50%; top: -30px; transform: translateX(-50%); background: var(--danger); color: var(--surface); font: 500 11px/1 var(--font-mono); padding: 5px 7px; border-radius: 5px; white-space: nowrap; }
+.gate-notes { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-top: 14px; min-width: 640px; font-size: 14px; color: var(--muted); }
+.gate-notes b { color: var(--fg); display: block; }
+.scale { position: relative; height: 12px; border-radius: 6px; background: linear-gradient(90deg, var(--danger-soft) 0 70%, var(--accent-soft) 70% 100%); border: 1px solid var(--line); margin: 34px 0 30px; }
+.tick { position: absolute; top: -28px; transform: translateX(-50%); font: 500 12px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+.tick::after { content: ""; position: absolute; left: 50%; top: 18px; width: 2px; height: 22px; background: currentColor; }
+.tick.min { color: var(--fg); } .tick.story { top: 22px; color: var(--danger); } .tick.story::after { top: -18px; }
+.steps { display: grid; gap: 36px; counter-reset: s; }
+.step { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 16px; }
+.step-n { counter-increment: s; width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); display: grid; place-items: center; font: 700 16px/1 var(--font-display); }
+.step-n::before { content: counter(s); }
+.step-body { display: grid; gap: 12px; min-width: 0; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; align-items: start; }
+@media (max-width: 640px) { .pair { grid-template-columns: minmax(0,1fr); } }
+td.w { font: 500 14px/1.6 var(--font-mono); text-align: center; color: var(--accent); width: 64px; }
+.note { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; }
+.note.key { border-color: var(--accent); background: var(--accent-soft); }
+.faq { display: grid; gap: 10px; }
+details { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 0 16px; }
+summary { cursor: pointer; padding: 14px 0; font: 600 16px/1.3 var(--font-display); }
+details p { padding-bottom: 14px; }
+</style>
+<main class="page guide">
+    <section>
+      <div class="eyebrow"><span class="es">Guía de configuración</span><span class="en">Setup guide</span></div>
+      <h1 class="es">Que ninguna historia empiece sin estar lista</h1>
+      <h1 class="en">No story starts before it is ready</h1>
+      <p class="lede es">Ready Check califica cada incidencia de 0 a 100 según su definición de listo y frena en el flujo de Jira las que están por debajo de tu mínimo. Esta guía te deja funcionando en un minuto.</p>
+      <p class="lede en">Ready Check scores every issue from 0 to 100 against your definition of ready and stops the ones below your minimum right in the Jira workflow. This guide gets you running in a minute.</p>
+    </section>
+
+    <section id="donde">
+      <h2 class="es">Dónde conviene bloquear</h2>
+      <h2 class="en">Where to block</h2>
+      <p class="es">El bloqueo va en la entrada a <b>En curso</b>. Es el momento en que alguien se compromete a construir la historia: si no está lista, que no empiece.</p>
+      <p class="en">The block belongs on the way into <b>In Progress</b>. That is when someone commits to building the story: if it is not ready, it does not start.</p>
+      <div class="gate" role="img" aria-label="Flujo: Tareas por hacer, En curso con bloqueo, En revisión, Finalizada">
+        <div class="lane">
+          <div class="st todo"><span class="es">Tareas por hacer</span><span class="en">To Do</span></div>
+          <div class="arrow blocked"><span class="es">Ready Check</span><span class="en">Ready Check</span></div>
+          <div class="st prog"><span class="es">En curso</span><span class="en">In Progress</span></div>
+          <div class="arrow"></div>
+          <div class="st"><span class="es">En revisión</span><span class="en">In Review</span></div>
+          <div class="arrow"></div>
+          <div class="st done"><span class="es">Finalizada</span><span class="en">Done</span></div>
+        </div>
+        <div class="gate-notes">
+          <div class="es"><b>No bloquear aquí</b>Las historias nacen incompletas y se refinan en el backlog.</div>
+          <div class="en"><b>Do not block here</b>Stories are born incomplete and get refined in the backlog.</div>
+          <div class="es"><b>Bloquear aquí</b>Nadie empieza una historia por debajo del mínimo.</div>
+          <div class="en"><b>Block here</b>Nobody starts a story below the minimum.</div>
+          <div class="es"><b>Muy tarde</b>El trabajo ya está hecho; frenarla solo estorba.</div>
+          <div class="en"><b>Too late</b>The work is already done; blocking only gets in the way.</div>
+          <div class="es"><b>Muy tarde</b>Igual que en revisión.</div>
+          <div class="en"><b>Too late</b>Same as review.</div>
+        </div>
+      </div>
+      <p class="es">El asistente lee los estados de tu proyecto y te sugiere el primero de la categoría «en curso», se llame como se llame.</p>
+      <p class="en">The setup reads your project's statuses and suggests the first one in the "in progress" category, whatever it is called.</p>
+    </section>
+
+    <section id="rapido">
+      <h2 class="es">Configúralo en un minuto</h2>
+      <h2 class="en">Set it up in a minute</h2>
+      <p class="es">Solo lo puede hacer un administrador del proyecto. Nadie tiene que entrar al editor de flujos.</p>
+      <p class="en">A project admin does this once. Nobody has to open the workflow editor.</p>
+      <div class="steps">
+        <div class="step"><div class="step-n" aria-hidden="true"></div><div class="step-body">
+          <h3 class="es">Abre el asistente</h3><h3 class="en">Open the setup</h3>
+          <p class="es">Justo después de instalar, Jira muestra el enlace <b>Comenzar</b> de Ready Check. También aparece un aviso en el panel de Ready Check de cualquier historia mientras el proyecto no esté configurado.</p>
+          <p class="en">Right after installing, Jira shows Ready Check's <b>Get started</b> link. A notice also appears in the Ready Check panel of any story until the project is set up.</p>
+          <div class="pair">
+            <figure><img src="img/comenzar.jpg" alt="Página Comenzar de Ready Check con el selector de proyecto" width="990" height="555"><figcaption class="es">Página «Comenzar»: elige el proyecto.</figcaption><figcaption class="en">"Get started" page: pick the project.</figcaption></figure>
+            <figure><img src="img/aviso.jpg" alt="Aviso en el panel: Ready Check aún no bloquea nada" width="490" height="400"><figcaption class="es">El aviso en el panel de la historia. Si no lo ves, abre el panel: puede estar contraído.</figcaption><figcaption class="en">The notice in the story panel. If you do not see it, expand the panel: it may be collapsed.</figcaption></figure>
+          </div>
+        </div></div>
+
+        <div class="step"><div class="step-n" aria-hidden="true"></div><div class="step-body">
+          <h3 class="es">Elige tipos y revisiones</h3><h3 class="en">Choose issue types and checks</h3>
+          <p class="es">Historia viene marcada y las nueve revisiones vienen prendidas. El puntaje se ve en todas las incidencias, pero el bloqueo solo aplica a los tipos que marques. Así los errores y las subtareas no se frenan.</p>
+          <p class="en">Story comes checked and all nine checks are on. The score shows on every issue, but the block only applies to the types you check, so bugs and subtasks are never stopped.</p>
+          <figure><img src="img/pasos12.jpg" alt="Pasos 1 y 2 del asistente: tipos de incidencia y revisiones" width="996" height="722"></figure>
+        </div></div>
+
+        <div class="step"><div class="step-n" aria-hidden="true"></div><div class="step-body">
+          <h3 class="es">Elige dónde frenar y activa</h3><h3 class="en">Choose where to stop and activate</h3>
+          <p class="es">Antes de aplicar, el asistente te dice exactamente qué va a cambiar. Al dar <b>Activar Ready Check</b>, la app agrega su regla en todas las transiciones hacia ese estado y la quita de cualquier otra.</p>
+          <p class="en">Before applying, the setup tells you exactly what will change. When you click <b>Activate Ready Check</b>, the app adds its rule to every transition into that status and removes it from anywhere else.</p>
+          <div class="pair">
+            <figure><img src="img/paso3.jpg" alt="Paso 3: estado donde se frenan, con En curso recomendado" width="996" height="722"></figure>
+            <figure><img src="img/listo.jpg" alt="Mensaje Listo: las incidencias con menos de 70 ya no pueden pasar a En curso" width="996" height="206"><figcaption class="es">La confirmación.</figcaption><figcaption class="en">The confirmation.</figcaption></figure>
+          </div>
+        </div></div>
+
+        <div class="step"><div class="step-n" aria-hidden="true"></div><div class="step-body">
+          <h3 class="es">Así se ve un bloqueo</h3><h3 class="en">What a block looks like</h3>
+          <p class="es">Si alguien mueve una historia por debajo del mínimo, Jira la frena y dice qué le falta, en el idioma de esa persona.</p>
+          <p class="en">If someone moves a story below the minimum, Jira stops it and says what is missing, in that person's language.</p>
+          <figure><img src="img/bloqueo.jpg" alt="Error en la transición: Ready Check, esta incidencia tiene 18 de 100 y el mínimo es 70" width="502" height="204" style="max-width:520px"></figure>
+        </div></div>
+      </div>
+      <div class="note key">
+        <b class="es">Para cambiarlo después</b><b class="en">To change it later</b>
+        <p class="es">Botón <b>Configurar</b> en el panel de Ready Check (solo lo ven los administradores) o <b>Configuración del proyecto → Ready Check</b>. Si cambias el estado, la app mueve la regla sola; «No bloquear» la quita.</p>
+        <p class="en"><b>Set up</b> button in the Ready Check panel (admins only) or <b>Project settings → Ready Check</b>. If you change the status, the app moves the rule for you; "Do not block" removes it.</p>
+      </div>
+    </section>
+
+    <section id="revisa">
+      <h2 class="es">Qué revisa y cómo calcula el puntaje</h2>
+      <h2 class="en">What it checks and how the score works</h2>
+      <p class="es">Lee el resumen, la descripción, el campo de criterios de aceptación (si tu proyecto usa uno), los story points y los adjuntos. Funciona en español y en inglés. Cada revisión tiene un peso que puedes cambiar en «Opciones avanzadas».</p>
+      <p class="en">It reads the summary, description, acceptance criteria field (if your project uses one), story points and attachments. It works in English and Spanish. Each check has a weight you can change under "Advanced options".</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th class="es">Revisión</th><th class="en">Check</th><th class="es">Pasa si…</th><th class="en">Passes when…</th><th class="es">Peso</th><th class="en">Weight</th></tr></thead>
+        <tbody>
+          <tr><td class="es">Criterios de aceptación</td><td class="en">Acceptance criteria</td><td class="es">Hay escenarios Dado/Cuando/Entonces o una sección de criterios con contenido</td><td class="en">There are Given/When/Then scenarios or a criteria section with content</td><td class="w">3</td></tr>
+          <tr><td class="es">Casos borde</td><td class="en">Edge cases</td><td class="es">Al menos dos casos y uno negativo: error, vacío, inválido, vencido, sin permiso</td><td class="en">At least two cases and one negative: error, empty, invalid, expired, no permission</td><td class="w">3</td></tr>
+          <tr><td class="es">Formato de historia</td><td class="en">Story format</td><td class="es">«Como… quiero… para…»</td><td class="en">"As a… I want… so that…"</td><td class="w">2</td></tr>
+          <tr><td class="es">Escenarios completos</td><td class="en">Complete scenarios</td><td class="es">Cada escenario tiene Dado, Cuando y Entonces</td><td class="en">Every scenario has Given, When and Then</td><td class="w">2</td></tr>
+          <tr><td class="es">Sin preguntas abiertas</td><td class="en">No open questions</td><td class="es">No aparece «TBD», «por definir», «pendiente de confirmar», «??»</td><td class="en">No "TBD", "to be defined", "to be confirmed", "??"</td><td class="w">2</td></tr>
+          <tr><td class="es">Estimada</td><td class="en">Estimated</td><td class="es">Story points mayores a 0. Si el sitio no tiene ese campo, no cuenta</td><td class="en">Story points above 0. Skipped if the site has no such field</td><td class="w">2</td></tr>
+          <tr><td class="es">Redacción clara</td><td class="en">Clear wording</td><td class="es">Sin palabras vagas: «rápido», «intuitivo», «amigable», «etc.»</td><td class="en">No vague words: "fast", "intuitive", "user-friendly", "etc."</td><td class="w">1</td></tr>
+          <tr><td class="es">Suficiente detalle</td><td class="en">Enough detail</td><td class="es">La descripción tiene al menos 30 palabras (ajustable)</td><td class="en">The description has at least 30 words (adjustable)</td><td class="w">1</td></tr>
+          <tr><td class="es">Diseño adjunto</td><td class="en">Design attached</td><td class="es">Un enlace de Figma, Miro u otra herramienta de diseño, o una imagen adjunta</td><td class="en">A Figma, Miro or similar link, or an attached image</td><td class="w">1</td></tr>
+        </tbody>
+      </table></div>
+      <p class="es"><b>Puntaje</b> = puntos de las revisiones que pasan ÷ puntos posibles × 100. El mínimo por defecto es 70. Ejemplo: una historia que solo pasa «sin preguntas abiertas» y «redacción clara» suma 3 de 17 puntos y saca 18.</p>
+      <p class="en"><b>Score</b> = points of the checks that pass ÷ possible points × 100. The default minimum is 70. Example: a story that only passes "no open questions" and "clear wording" earns 3 of 17 points and scores 18.</p>
+      <div class="scale" aria-hidden="true">
+        <span class="tick" style="left:0%">0</span>
+        <span class="tick min" style="left:70%"><span class="es">mínimo 70</span><span class="en">minimum 70</span></span>
+        <span class="tick" style="left:100%">100</span>
+        <span class="tick story" style="left:18%"><span class="es">la historia: 18</span><span class="en">the story: 18</span></span>
+      </div>
+      <p class="es">El panel también muestra las preguntas que hará QA según el tema de la historia (si habla de pagos: ¿qué pasa si la tarjeta es rechazada?). No restan puntos: ayudan a escribir mejores criterios.</p>
+      <p class="en">The panel also lists the questions QA will ask based on the story's topic (if it mentions payments: what if the card is declined?). They do not lower the score; they help write better criteria.</p>
+    </section>
+
+    <section id="permisos">
+      <h2 class="es">Permisos y tus datos</h2>
+      <h2 class="en">Permissions and your data</h2>
+      <div class="note">
+        <b class="es">Por qué pedimos «administrar la configuración de Jira»</b>
+        <b class="en">Why we ask to "manage Jira configuration"</b>
+        <p class="es">Solo para agregar o quitar la regla de Ready Check en el flujo del proyecto que configuras. No cambiamos estados, campos, pantallas ni otras reglas. Cada cambio se hace con los permisos de quien da clic: si esa persona no puede editar el flujo, Jira no lo permite y el asistente le muestra cómo hacerlo a mano.</p>
+        <p class="en">Only to add or remove the Ready Check rule in the workflow of the project you set up. We do not change statuses, fields, screens or other rules. Every change runs with the permissions of whoever clicks: if that person cannot edit the workflow, Jira refuses and the setup shows how to do it by hand.</p>
+      </div>
+      <div class="note">
+        <b class="es">Tus datos no salen de Atlassian</b>
+        <b class="en">Your data never leaves Atlassian</b>
+        <p class="es">Ready Check corre completo dentro de la plataforma de Atlassian (Forge) y no envía información a servidores externos. La configuración se guarda en el almacenamiento de la app dentro de tu sitio.</p>
+        <p class="en">Ready Check runs entirely on Atlassian's platform (Forge) and sends nothing to outside servers. Settings are stored in the app's storage inside your site.</p>
+      </div>
+    </section>
+
+    <section id="manual">
+      <h2 class="es">Plan B: agregar la regla a mano</h2>
+      <h2 class="en">Plan B: add the rule by hand</h2>
+      <p class="es">Solo si prefieres no usar el asistente, o si tu usuario no puede editar el flujo. Primero guarda la configuración con el asistente eligiendo «No bloquear»: sin eso, Ready Check no frena nada.</p>
+      <p class="en">Only if you prefer not to use the setup, or your user cannot edit the workflow. First save the setup choosing "Do not block": without it, Ready Check stops nothing.</p>
+      <div class="steps">
+        <div class="step"><div class="step-n" aria-hidden="true"></div><div class="step-body">
+          <p class="es">Ve a <b>Configuración del proyecto → Tipos de incidencia → Historia → Editar flujo de trabajo</b> (en proyectos gestionados por la empresa: <b>Configuración del proyecto → Flujos de trabajo</b>).</p>
+          <p class="en">Go to <b>Project settings → Issue types → Story → Edit workflow</b> (company-managed projects: <b>Project settings → Workflows</b>).</p>
+          <figure><img src="img/m-editor.jpg" alt="Editor de flujo de trabajo con los estados" width="1400" height="630" loading="lazy"></figure>
+        </div></div>
+        <div class="step"><div class="step-n" aria-hidden="true"></div><div class="step-body">
+          <p class="es">Haz clic en la transición que llega a <b>En curso</b> y, en <b>Validar detalles</b>, pulsa <b>+</b>.</p>
+          <p class="en">Click the transition into <b>In Progress</b> and press <b>+</b> next to <b>Validate details</b>.</p>
+          <figure><img src="img/m-transicion.jpg" alt="Transición hacia In Progress seleccionada con el panel de reglas" width="1400" height="647" loading="lazy"></figure>
+        </div></div>
+        <div class="step"><div class="step-n" aria-hidden="true"></div><div class="step-body">
+          <p class="es">Elige <b>Ready Check</b>, confirma con <b>Añadir</b> y guarda con <b>Actualizar flujo de trabajo</b>.</p>
+          <p class="en">Choose <b>Ready Check</b>, confirm with <b>Add</b> and save with <b>Update workflow</b>.</p>
+          <div class="pair">
+            <figure><img src="img/m-regla.jpg" alt="Lista de reglas con Ready Check" width="996" height="722" loading="lazy"></figure>
+            <figure><img src="img/m-agregada.jpg" alt="Regla agregada en la transición" width="1400" height="731" loading="lazy"></figure>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2 class="es">Preguntas frecuentes</h2>
+      <h2 class="en">FAQ</h2>
+      <div class="faq">
+        <details><summary class="es">No veo el aviso para configurar</summary><summary class="en">I do not see the setup notice</summary>
+          <p class="es">El panel de Ready Check puede estar contraído en la barra derecha de la incidencia: haz clic en su título. También puedes entrar por la página «Comenzar» o por Configuración del proyecto → Ready Check.</p>
+          <p class="en">The Ready Check panel may be collapsed on the right side of the issue: click its title. You can also use the "Get started" page or Project settings → Ready Check.</p></details>
+        <details><summary class="es">¿Va a bloquear errores o subtareas?</summary><summary class="en">Will it block bugs or subtasks?</summary>
+          <p class="es">No, salvo que los marques en el paso 1. El puntaje se muestra en todas las incidencias, pero el bloqueo solo aplica a los tipos elegidos.</p>
+          <p class="en">No, unless you check them in step 1. The score shows on every issue, but the block only applies to the chosen types.</p></details>
+        <details><summary class="es">Mi flujo se comparte con otros proyectos</summary><summary class="en">My workflow is shared with other projects</summary>
+          <p class="es">Ready Check solo bloquea en los proyectos que pasaron por el asistente. Los demás proyectos que usan el mismo flujo siguen igual.</p>
+          <p class="en">Ready Check only blocks in projects that went through the setup. Other projects using the same workflow are unaffected.</p></details>
+        <details><summary class="es">Jira está en otro idioma</summary><summary class="en">Jira is in another language</summary>
+          <p class="es">Los tipos de incidencia se guardan por su código interno, así que el bloqueo funciona igual en cualquier idioma. Los mensajes salen en el idioma de cada persona (español o inglés), o en el que fijes en «Opciones avanzadas».</p>
+          <p class="en">Issue types are stored by their internal id, so the block works the same in any language. Messages follow each person's language (English or Spanish), or the one you set under "Advanced options".</p></details>
+        <details><summary class="es">¿Cómo lo desactivo?</summary><summary class="en">How do I turn it off?</summary>
+          <p class="es">Abre el asistente y elige «No bloquear, solo mostrar el puntaje». La app quita su regla del flujo.</p>
+          <p class="en">Open the setup and choose "Do not block, only show the score". The app removes its rule from the workflow.</p></details>
+      </div>
+    </section>
+
+    
+  </main>
+<footer><div class="page">
+  <span>Ready Check for Jira Cloud</span>
+  <a href="../privacy/"><span class="en">Privacy</span><span class="es">Privacidad</span></a>
+  <a href="../terms/"><span class="en">Terms</span><span class="es">Términos</span></a>
+  <a href="../support/"><span class="en">Support</span><span class="es">Soporte</span></a>
+</div></footer>
+<script src="../assets/lang.js"></script>
+</body>
+</html>

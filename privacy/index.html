@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ready Check Privacy Policy</title>
+<meta name="description" content="What data Ready Check reads and stores.">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="../"><img src="../assets/icon.svg" alt="" width="28" height="28">Ready Check</a>
+  <nav class="nav">
+    <a href="../guide/"><span class="en">Setup guide</span><span class="es">Guía</span></a>
+    <a href="../support/"><span class="en">Support</span><span class="es">Soporte</span></a>
+    <a href="../privacy/" aria-current="page"><span class="en">Privacy</span><span class="es">Privacidad</span></a>
+    <a href="../terms/"><span class="en">Terms</span><span class="es">Términos</span></a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language / Idioma">
+    <button type="button" data-set="en" aria-pressed="true">English</button>
+    <button type="button" data-set="es" aria-pressed="false">Español</button>
+  </div>
+</div></header>
+<main class="page">
+  <div class="eyebrow">Ready Check</div>
+  <h1 class="en">Privacy Policy</h1><h1 class="es">Política de privacidad</h1>
+  <p class="meta en">Effective date: November 9, 2026</p><p class="meta es">Vigente desde: 9 de noviembre de 2026</p>
+
+  <div class="card key">
+    <b class="en">In short</b><b class="es">En resumen</b>
+    <p class="en">Ready Check runs entirely on Atlassian's Forge platform. It reads the issues it scores, stores only its own settings, and never sends your data outside Atlassian. We do not sell, share or analyze your data.</p>
+    <p class="es">Ready Check corre completo en la plataforma Forge de Atlassian. Lee las incidencias que califica, guarda solo su propia configuración y nunca envía tus datos fuera de Atlassian. No vendemos, compartimos ni analizamos tus datos.</p>
+  </div>
+
+  <h2 class="en">Who we are</h2><h2 class="es">Quiénes somos</h2>
+  <p class="en">Ready Check is developed by Steven Pardo, an independent developer based in Colombia ("we"). This policy explains how Ready Check for Jira Cloud (the "app") handles data.</p>
+  <p class="es">Ready Check lo desarrolla Steven Pardo, desarrollador independiente con sede en Colombia («nosotros»). Esta política explica cómo Ready Check para Jira Cloud (la «app») trata los datos.</p>
+
+  <h2 class="en">Data the app reads</h2><h2 class="es">Datos que la app lee</h2>
+  <p class="en">To calculate a score, the app reads, through Jira's APIs and only inside Atlassian's platform:</p>
+  <p class="es">Para calcular un puntaje, la app lee, mediante las API de Jira y solo dentro de la plataforma de Atlassian:</p>
+  <ul class="en"><li>The issue summary, description, issue type, story points and the acceptance criteria field you choose.</li><li>The names and file types of attachments and the links in the description (to detect a design link). The content of attachments is never read.</li><li>The project's issue types, statuses and workflows, when an admin runs the setup.</li><li>Your Atlassian account ID and Jira language, to show messages in your language.</li></ul>
+  <ul class="es"><li>El resumen, la descripción, el tipo de incidencia, los story points y el campo de criterios de aceptación que elijas.</li><li>Los nombres y tipos de los adjuntos y los enlaces de la descripción (para detectar un enlace de diseño). Nunca se lee el contenido de los adjuntos.</li><li>Los tipos de incidencia, estados y flujos del proyecto, cuando un administrador ejecuta la configuración.</li><li>Tu ID de cuenta de Atlassian y el idioma de Jira, para mostrarte los mensajes en tu idioma.</li></ul>
+  <p class="en">Issue content is processed in memory to calculate the score and is not stored.</p>
+  <p class="es">El contenido de las incidencias se procesa en memoria para calcular el puntaje y no se guarda.</p>
+
+  <h2 class="en">Data the app stores</h2><h2 class="es">Datos que la app guarda</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th class="en">What</th><th class="es">Qué</th><th class="en">Why</th><th class="es">Para qué</th></tr></thead>
+    <tbody>
+      <tr><td class="en">Project settings: minimum score, checks and weights, issue types, blocking status, language, acceptance criteria field</td><td class="es">Configuración del proyecto: puntaje mínimo, revisiones y pesos, tipos de incidencia, estado de bloqueo, idioma, campo de criterios</td><td class="en">To apply your Definition of Ready</td><td class="es">Aplicar tu definición de listo</td></tr>
+      <tr><td class="en">Account ID → Jira language (for example "es_ES")</td><td class="es">ID de cuenta → idioma de Jira (por ejemplo «es_ES»)</td><td class="en">To write workflow messages in each person's language</td><td class="es">Escribir los mensajes del flujo en el idioma de cada persona</td></tr>
+      <tr><td class="en">IDs of the story points fields, cached for 24 hours</td><td class="es">IDs de los campos de story points, en caché por 24 horas</td><td class="en">To read estimates faster</td><td class="es">Leer la estimación más rápido</td></tr>
+    </tbody>
+  </table></div>
+  <p class="en">This data is kept in Forge hosted storage, inside Atlassian's infrastructure. Atlassian deletes it when the app is uninstalled, under Atlassian's data retention rules for Forge apps.</p>
+  <p class="es">Estos datos se guardan en el almacenamiento de Forge, dentro de la infraestructura de Atlassian. Atlassian los elimina cuando se desinstala la app, según sus reglas de retención para apps de Forge.</p>
+
+  <h2 class="en">Changes the app makes in Jira</h2><h2 class="es">Cambios que la app hace en Jira</h2>
+  <p class="en">Only when a project admin clicks "Activate" in the setup, the app adds or removes its own validation rule on the transitions into the chosen status. It does not change statuses, fields, screens or other rules, and every change runs with the permissions of the admin who clicked.</p>
+  <p class="es">Solo cuando un administrador del proyecto da clic en «Activar» en la configuración, la app agrega o quita su propia regla de validación en las transiciones hacia el estado elegido. No cambia estados, campos, pantallas ni otras reglas, y cada cambio se hace con los permisos del administrador que dio clic.</p>
+
+  <h2 class="en">What we do not do</h2><h2 class="es">Lo que no hacemos</h2>
+  <ul class="en"><li>No data leaves Atlassian: the app makes no calls to external servers.</li><li>No analytics, tracking, cookies or advertising.</li><li>No sale or sharing of data with third parties.</li><li>No use of your data to train AI models.</li></ul>
+  <ul class="es"><li>Ningún dato sale de Atlassian: la app no llama a servidores externos.</li><li>Sin analítica, rastreo, cookies ni publicidad.</li><li>No vendemos ni compartimos datos con terceros.</li><li>No usamos tus datos para entrenar modelos de IA.</li></ul>
+
+  <h2 class="en">Logs</h2><h2 class="es">Registros</h2>
+  <p class="en">The app writes short technical logs (for example an issue key, its score and whether a transition was allowed) to Atlassian's Forge logging, which Atlassian retains for a limited time. We use them only to fix problems.</p>
+  <p class="es">La app escribe registros técnicos cortos (por ejemplo, la clave de una incidencia, su puntaje y si se permitió una transición) en el registro de Forge de Atlassian, que Atlassian conserva por un tiempo limitado. Solo los usamos para corregir problemas.</p>
+
+  <h2 class="en">Your rights</h2><h2 class="es">Tus derechos</h2>
+  <p class="en">Your Jira site administrator controls the data: uninstalling the app removes what it stored. To ask a privacy question or exercise your rights under laws such as the GDPR or Colombia's Law 1581 of 2012, contact us at the email listed on Ready Check's partner profile in the Atlassian Marketplace. We answer within 15 business days.</p>
+  <p class="es">El administrador de tu sitio de Jira controla los datos: al desinstalar la app se elimina lo que guardó. Para hacer una consulta de privacidad o ejercer tus derechos según leyes como el RGPD o la Ley 1581 de 2012 de Colombia, escríbenos al correo del perfil de socio de Ready Check en el Atlassian Marketplace. Respondemos en máximo 15 días hábiles.</p>
+
+  <h2 class="en">Changes to this policy</h2><h2 class="es">Cambios a esta política</h2>
+  <p class="en">If we change how the app handles data, we will update this page and its effective date before the change takes effect.</p>
+  <p class="es">Si cambiamos cómo la app trata los datos, actualizaremos esta página y su fecha de vigencia antes de que el cambio aplique.</p>
+</main>
+<footer><div class="page">
+  <span>Ready Check for Jira Cloud</span>
+  <a href="../privacy/"><span class="en">Privacy</span><span class="es">Privacidad</span></a>
+  <a href="../terms/"><span class="en">Terms</span><span class="es">Términos</span></a>
+  <a href="../support/"><span class="en">Support</span><span class="es">Soporte</span></a>
+</div></footer>
+<script src="../assets/lang.js"></script>
+</body>
+</html>
